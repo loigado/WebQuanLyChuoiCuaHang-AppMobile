@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+  # 1. Cơ sở dữ liệu SQL Server
+  db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: branch-management-db
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=YourStrongPassword123! # Thay đổi password này
+    ports:
+      - "1433:1433"
+    networks:
+      - branch-network
+
+  # 2. MediaMTX - Xử lý Stream Camera (RTSP to HLS)
+  mediamtx:
+    image: bluenviron/mediamtx:latest
+    container_name: camera-stream-server
+    ports:
+      - "8554:8554" # RTSP
+      - "8888:8888" # HLS (Cho Frontend xem video)
+      - "8889:8889" # WebRTC
+    networks:
+      - branch-network
+
+  # 3. Backend Spring Boot (Sử dụng Dockerfile đã viết)
+  backend:
+    build: .
+    container_name: branch-management-api
+    ports:
+      - "8081:8081"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:sqlserver://db:1433;databaseName=master;encrypt=true;trustServerCertificate=true
+      - SPRING_DATASOURCE_USERNAME=sa
+      - SPRING_DATASOURCE_PASSWORD=YourStrongPassword123!
+      - JWT_SECRET=404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970
+      - MEDIA_HLS_URL=http://localhost:8888
+    depends_on:
+      - db
+      - mediamtx
+    networks:
+      - branch-network
+
+networks:
+  branch-network:
+    driver: bridge
