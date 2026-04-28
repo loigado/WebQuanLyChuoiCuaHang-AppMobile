@@ -108,10 +108,9 @@ graph TD
 
 ---
 
-## 👨‍💻 Tác giả
-**[Họ và Tên của bạn]**
-- Vai trò: Fullstack Developer
-- Dự án: Đồ án tốt nghiệp (Chuyên ngành Công nghệ thông tin)
+## 👨‍💻 Thông tin Tác giả
 
----
-*Phát triển bởi ❤️ bởi đội ngũ BranchCore.*
+* **Tác giả:** Lê Tấn Lợi
+* **Đơn vị:** Sinh viên FPT Polytechnic và Học viện Green Academy
+* **Kỹ năng:** Unity Developer, Software Engineer (Spring Boot, Vue.js, C#).
+* **Liên hệ:** loiletan04@gmail.com
